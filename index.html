@@ -257,6 +257,39 @@
             box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
         }
 
+        /* Dock icon labels */
+        .dash-icon::before {
+            content: attr(data-label);
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+
+        .dash-icon:hover::before {
+            opacity: 1;
+        }
+
+        /* Click ripple animation */
+        @keyframes clickRipple {
+            0% { transform: scale(0); opacity: 0.8; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        .dash-icon:active {
+            transform: scale(1.05) translateY(-2px);
+        }
+
         /* Glass Windows */
         .window {
             position: fixed;
@@ -425,6 +458,12 @@
         }
 
         .dash-icon.running::after { opacity: 1; }
+
+        /* Terminal input fix */
+        #terminal-input {
+            user-select: text !important;
+            pointer-events: auto !important;
+        }
     </style>
 </head>
 <body>
@@ -535,10 +574,10 @@
                         <div style="width: 12px; height: 12px; background: #fab387; border-radius: 50%;"></div>
                         <div style="width: 12px; height: 12px; background: #a6e3a1; border-radius: 50%;"></div>
                     </div>
-                    <div id="terminal-output" style="font-size: 13px; line-height: 1.5; white-space: pre-wrap; margin-top: 8px;"></div>
-                    <div style="display: flex; align-items: center; margin-top: 8px;">
-                        <span style="color: #89b4fa;">[oom@linux ~]$ </span>
-                        <input type="text" id="terminal-input" style="background: transparent; border: none; color: #cdd6f4; font-family: inherit; font-size: 13px; width: 100%; outline: none; caret-color: #f5c2e7;" autocomplete="off" spellcheck="false">
+                    <div id="terminal-output" style="font-size: 14px; line-height: 1.6; margin-top: 8px;"></div>
+                    <div id="terminal-input-line" style="display: flex; align-items: center; margin-top: 4px;">
+                        <span id="terminal-prompt" style="color: #89b4fa; font-size: 14px; white-space: nowrap;">[oom@linux ~]$ </span>
+                        <input type="text" id="terminal-input" style="background: transparent; border: none; color: #cdd6f4; font-family: inherit; font-size: 14px; flex: 1; outline: none; caret-color: #f5c2e7;" autocomplete="off" spellcheck="false">
                     </div>
                 </div>`
             };
@@ -652,6 +691,15 @@
             show() {
                 this.element.style.display = 'block';
                 this.bringToFront();
+                // Initialize terminal when showing terminal window
+                if (this.id === 'terminal') {
+                    setTimeout(() => {
+                        initTerminal();
+                        // Focus the input field
+                        const input = document.getElementById('terminal-input');
+                        if (input) input.focus();
+                    }, 50);
+                }
             }
 
             minimize() {
@@ -786,17 +834,23 @@
         // Terminal history
         let terminalHistory = [];
         let historyIndex = -1;
+        let terminalInitialized = false;
 
         function initTerminal() {
             const output = document.getElementById('terminal-output');
             const input = document.getElementById('terminal-input');
             if (!output || !input) return;
 
-            // Initial welcome message
-            output.innerHTML = `<span style="color: #a6e3a1;">Welcome to GNOME Terminal!</span>
-Type 'help' for available commands.
+            // Reset welcome message
+            output.innerHTML = `<span style="color: #a6e3a1;">Welcome to GNOME Terminal!</span><br>Type 'help' for available commands.<br><br>`;
 
-`;
+            // Only add event listener once
+            if (terminalInitialized) {
+                input.focus();
+                return;
+            }
+            
+            terminalInitialized = true;
 
             input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
@@ -822,8 +876,9 @@ Type 'help' for available commands.
 Type 'help' for available commands.`;
                         }
 
-                        // Add to output
-                        output.innerHTML += `<span style="color: #89b4fa;">[oom@linux ~]$ </span><span style="color: #f5c2e7;">${cmd}</span>\n${result}\n\n`;
+                        // Convert \n to <br> for proper HTML display
+                        const formattedResult = result.replace(/\n/g, '<br>');
+                        output.innerHTML += `<div style="line-height: 1.6;"><span style="color: #89b4fa; font-size: 14px;">[oom@linux ~]$</span> <span style="color: #f5c2e7; font-size: 14px;">${cmd}</span></div><div style="line-height: 1.6; font-size: 14px;">${formattedResult}</div><br>`;
                         input.value = '';
                         output.scrollTop = output.scrollHeight;
                     }
