@@ -1814,10 +1814,7 @@ SWAP [${bar(swap)}] ${swap}%
 
                     terminalState.pingIntervals.set(result.host + Date.now(), intervalId);
                 } else if (result.type === 'htop') {
-                    appendTerminalEntry(output, cmd, {
-                        type: 'text',
-                        value: 'logout\nConnection to localhost closed.'
-                    });
+                    
 
                     const frame = appendLiveLine(output, generateHtopFrame(), '#a6e3a1');
                     frame.style.fontFamily = 'var(--font-mono)';
