@@ -1316,11 +1316,51 @@
                     appMenu.appendChild(item);
                 });
         }
+        
+        async function appendTerminalLines(output, cmd, lines) {
+    const cmdLine = document.createElement('div');
+
+    const prompt = document.createElement('span');
+    prompt.style.cssText = 'color: #89b4fa;';
+    prompt.textContent = '[oom@linux ~]$ ';
+
+    const cmdText = document.createElement('span');
+    cmdText.style.cssText = 'color: #f5c2e7;';
+    cmdText.textContent = cmd;
+
+    cmdLine.append(prompt, cmdText);
+    output.appendChild(cmdLine);
+
+    for (const line of lines) {
+        const lineDiv = document.createElement('div');
+        lineDiv.textContent = line;
+        output.appendChild(lineDiv);
+        output.scrollTop = output.scrollHeight;
+
+        // 👇 smart delay
+        let delay = Math.random() * 120 + 60; // ปกติ 40–160ms
+
+        // ถ้าเป็น download → ช้าหน่อย
+        if (line.startsWith('Get:') || line.includes('Fetched')) {
+            delay = Math.random() * 400 + 2000; // 200–600ms
+        }
+
+        // ถ้าเป็น step ใหญ่ → pause นิด
+        if (line.includes('Reading') || line.includes('Building')) {
+            delay = Math.random() * 300 + 150;
+        }
+
+        await new Promise(r => setTimeout(r, delay));
+    }
+
+    output.appendChild(document.createElement('br'));
+}
+
 
         const terminalCommands = {
-            help: () => ({
-                type: 'text',
-                value: `Available commands:
+    help: () => ({
+        type: 'text',
+        value: `Available commands:
   help     - Show this help
   clear    - Clear terminal
   echo     - Echo text
@@ -1332,53 +1372,36 @@
   neofetch - Show system info
   uname    - System information
   uptime   - Show uptime
-  cowsay   - Cow says something`
-            }),
-            clear: () => ({ type: 'clear' }),
-            echo: (args) => ({ type: 'text', value: args.join(' ') }),
-            date: () => ({ type: 'text', value: new Date().toString() }),
-            whoami: () => ({ type: 'text', value: 'oom' }),
-            pwd: () => ({ type: 'text', value: '/home/oom' }),
-            ls: () => ({ type: 'text', value: 'Desktop  Documents  Downloads  Music  Pictures  Videos  .bashrc  .bash_profile  .config' }),
-            cat: (args) => {
-                if (args[0] === '.bashrc') {
-                    return { type: 'text', value: '# ~/.bashrc\nexport PATH=$PATH:~/bin\nalias ll="ls -la"\nalias cls="clear"' };
-                }
-                if (args[0] === '.bash_profile') {
-                    return { type: 'text', value: '# ~/.bash_profile\nif [ -f ~/.bashrc ]; then\n    source ~/.bashrc\nfi' };
-                }
-                return { type: 'text', value: `cat: ${args[0] || 'no file specified'}: No such file or directory` };
-            },
-            neofetch: () => ({
-                type: 'html',
-                value: `
-<div class="mono-block">
-<span style="color: #89b4fa;">        .-/+oossssoo+/-.        </span><span style="color: #cdd6f4;">oom@linux</span>
-<span style="color: #89b4fa;">    \`:+ssssssssssssssssss+:\`    </span><span style="color: #cdd6f4;">-----------</span>
-<span style="color: #89b4fa;">  -+ssssssssssssssssssyyssss+-  </span><span style="color: #f9e2af;">OS:</span> Linux Mint 22 Vanessa x86_64
-<span style="color: #89b4fa;">.ossssssssssssssssss</span><span style="color: #f5c2e7;">dMMMNy</span><span style="color: #89b4fa;">sssso+. </span><span style="color: #f9e2af;">Host:</span> KVM
-<span style="color: #89b4fa;">/sssssssssss</span><span style="color: #f5c2e7;">hdmmNNmmyNMMMM</span><span style="color: #89b4fa;">hssss+  </span><span style="color: #f9e2af;">Kernel:</span> 6.8.0-57-generic
-<span style="color: #89b4fa;">+sssssssss</span><span style="color: #f5c2e7;">hm</span><span style="color: #89b4fa;">yd</span><span style="color: #f5c2e7;">NMMMNh</span><span style="color: #89b4fa;">ssssssssss+ </span><span style="color: #f9e2af;">Uptime:</span> 20 days, 14 hrs, 23 mins
-<span style="color: #89b4fa;">/ssssssss</span><span style="color: #f5c2e7;">hNMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMNm</span><span style="color: #89b4fa;">yhssssssssssss/ </span><span style="color: #f9e2af;">Packages:</span> 2898 (dpkg)
-<span style="color: #89b4fa;">.ssssssss</span><span style="color: #f5c2e7;">hNMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMMdm</span><span style="color: #89b4fa;">Nhssssssssssss. </span><span style="color: #f9e2af;">Shell:</span> bash 5.2.21
-<span style="color: #89b4fa;">/ssssss</span><span style="color: #f5c2e7;">hNMMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMMmm</span><span style="color: #89b4fa;">hssssssssssssss/ </span><span style="color: #f9e2af;">Resolution:</span> 1920x1080
-<span style="color: #89b4fa;">ssssss</span><span style="color: #f5c2e7;">hNMMMMMMN</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMMmh</span><span style="color: #89b4fa;">ssssssssssssss. </span><span style="color: #f9e2af;">DE:</span> GNOME 45
-<span style="color: #89b4fa;">.sssss</span><span style="color: #f5c2e7;">hNMMMMMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMMmh</span><span style="color: #89b4fa;">sssssssssssssss. </span><span style="color: #f9e2af;">Theme:</span> Adwaita-dark [GTK3]
-<span style="color: #89b4fa;">/sssss</span><span style="color: #f5c2e7;">hNMMMMMMMMMd</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMmh</span><span style="color: #89b4fa;">ssssssssssssssss/ </span><span style="color: #f9e2af;">Icons:</span> Adwaita [GTK3]
-<span style="color: #89b4fa;">+ssss</span><span style="color: #f5c2e7;">hNMMMMMMMMMMmy</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">mmNh</span><span style="color: #89b4fa;">ssssssssssssssss+ </span><span style="color: #f9e2af;">Terminal:</span> gnome-terminal
-<span style="color: #89b4fa;">/ssss</span><span style="color: #f5c2e7;">hNMMMMMMMMMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">mmmy</span><span style="color: #89b4fa;">ssssssssssssssssss/ </span><span style="color: #f9e2af;">CPU:</span> AMD EPYC 9334 32-Core @ 3.7 GHz
-<span style="color: #89b4fa;">/sss</span><span style="color: #f5c2e7;">hNMMMMMMMMMMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMh</span><span style="color: #89b4fa;">sssssssssssssssssss+ </span><span style="color: #f9e2af;">GPU:</span> NVIDIA RTX A6000
-<span style="color: #89b4fa;">/s</span><span style="color: #f5c2e7;">hNMMMMMMMMMMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMmh</span><span style="color: #89b4fa;">sssssssssssssssssss. </span><span style="color: #f9e2af;">Memory:</span> 4946MiB / 262144MiB
-</div>`
-            }),
-            uname: () => ({ type: 'text', value: 'Linux linux 6.8.0-57-generic x86_64 GNU/Linux' }),
-            uptime: () => ({ type: 'text', value: '20:14:23 up 20 days, 14:23, 1 user, load average: 0.42, 0.35, 0.28' }),
-            cowsay: (args) => {
-                const msg = args.join(' ') || 'Moo!';
-                const line = '-'.repeat(msg.length + 2);
-                return {
-                    type: 'text',
-                    value: ` ${line}
+  cowsay   - Cow says something
+  apt      - Simulate apt commands (update, upgrade)`
+    }),
+    clear: () => ({ type: 'clear' }),
+    echo: (args) => ({ type: 'text', value: args.join(' ') }),
+    date: () => ({ type: 'text', value: new Date().toString() }),
+    whoami: () => ({ type: 'text', value: 'oom' }),
+    pwd: () => ({ type: 'text', value: '/home/oom' }),
+    ls: () => ({ type: 'text', value: 'Desktop  Documents  Downloads  Music  Pictures  Videos  .bashrc  .bash_profile  .config' }),
+    cat: (args) => {
+        if (args[0] === '.bashrc') {
+            return { type: 'text', value: '# ~/.bashrc\nexport PATH=$PATH:~/bin\nalias ll="ls -la"\nalias cls="clear"' };
+        }
+        if (args[0] === '.bash_profile') {
+            return { type: 'text', value: '# ~/.bash_profile\nif [ -f ~/.bashrc ]; then\n    source ~/.bashrc\nfi' };
+        }
+        return { type: 'text', value: `cat: ${args[0] || 'no file specified'}: No such file or directory` };
+    },
+    neofetch: () => ({
+        type: 'html',
+        value: `<div class="mono-block">... [เหมือนเดิม] ...</div>`
+    }),
+    uname: () => ({ type: 'text', value: 'Linux linux 6.8.0-57-generic x86_64 GNU/Linux' }),
+    uptime: () => ({ type: 'text', value: '20:14:23 up 20 days, 14:23, 1 user, load average: 0.42, 0.35, 0.28' }),
+    cowsay: (args) => {
+        const msg = args.join(' ') || 'Moo!';
+        const line = '-'.repeat(msg.length + 2);
+        return {
+            type: 'text',
+            value: ` ${line}
 < ${msg} >
  ${line}
         \\   ^__^
@@ -1386,9 +1409,67 @@
             (__)\\       )\\/\\
                 ||----w |
                 ||     ||`
-                };
-            }
         };
+    },
+
+    // เพิ่มคำสั่ง apt
+    apt: (args) => {
+    const subcmd = args[0];
+
+    if (!subcmd) {
+        return { type: 'text', value: 'Usage: apt [update|upgrade]' };
+    }
+
+    if (subcmd === 'update') {
+        return {
+            type: 'lines',
+            lines: [
+                'Hit:1 http://archive.ubuntu.com/ubuntu focal InRelease',
+                'Hit:2 http://archive.ubuntu.com/ubuntu focal-updates InRelease',
+                'Hit:3 http://archive.ubuntu.com/ubuntu focal-backports InRelease',
+                'Reading package lists... Done',
+                'Building dependency tree... Done',
+                'Reading state information... Done',
+                'All packages are up to date.'
+            ]
+        };
+    }
+
+    if (subcmd === 'upgrade') {
+        return {
+            type: 'lines',
+            lines: [
+                'Reading package lists... Done',
+                'Building dependency tree... Done',
+                'Reading state information... Done',
+                'Calculating upgrade... Done',
+                'The following packages will be upgraded:',
+                '  gnome-shell mutter nautilus',
+                '3 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.',
+                'Need to get 24.8 MB of archives.',
+                'After this operation, 1,024 kB disk space will be freed.',
+                'Do you want to continue? [Y/n] y',
+                'Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 gnome-shell 45.2 [8,420 kB]',
+                'Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 mutter 45.2 [10.1 MB]',
+                'Get:3 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 nautilus 45.1 [6,280 kB]',
+                'Fetched 24.8 MB in 2s (12.4 MB/s)',
+                'Unpacking gnome-shell...',
+                'Unpacking mutter...',
+                'Unpacking nautilus...',
+                'Setting up gnome-shell...',
+                'Setting up mutter...',
+                'Setting up nautilus...',
+                'Processing triggers for man-db...',
+                'Upgrade complete! (What!!)'
+            ]
+        };
+    }
+
+    return { type: 'text', value: `apt: unknown subcommand: ${subcmd}` };
+}
+
+};
+
 
         function appendTerminalEntry(output, cmd, result) {
     const cmdLine = document.createElement('div');
@@ -1421,7 +1502,6 @@
     output.scrollTop = output.scrollHeight;
 }
 
-
         function initTerminal() {
     const output = document.getElementById('terminal-output');
     const input = document.getElementById('terminal-input');
@@ -1433,7 +1513,7 @@
     }
 
     if (!input.dataset.bound) {
-        input.addEventListener('keydown', (event) => {
+        input.addEventListener('keydown', async (event) => {
             if (event.key === 'Enter') {
                 const cmd = input.value.trim();
                 if (!cmd) return;
@@ -1455,14 +1535,17 @@
                     };
                 }
 
+                input.value = '';
+
                 if (result.type === 'clear') {
                     output.innerHTML = '';
                     output.dataset.booted = 'true';
+                } else if (result.type === 'lines') {
+                    await appendTerminalLines(output, cmd, result.lines, 120);
                 } else {
                     appendTerminalEntry(output, cmd, result);
                 }
 
-                input.value = '';
                 output.scrollTop = output.scrollHeight;
             } else if (event.key === 'ArrowUp') {
                 event.preventDefault();
@@ -1486,7 +1569,39 @@
     }
 
     input.focus();
+}                   
+        async function appendTerminalLines(output, cmd, lines, delay = 150) {
+            const cmdLine = document.createElement('div');
+            cmdLine.style.lineHeight = '1.6';
+
+            const prompt = document.createElement('span');
+            prompt.style.cssText = 'color: #89b4fa; font-size: 14px;';
+            prompt.textContent = '[oom@linux ~]$ ';
+
+            const cmdText = document.createElement('span');
+            cmdText.style.cssText = 'color: #f5c2e7; font-size: 14px;';
+            cmdText.textContent = cmd;
+
+            cmdLine.append(prompt, cmdText);
+            output.appendChild(cmdLine);
+
+    for (const line of lines) {
+        const lineDiv = document.createElement('div');
+        lineDiv.style.cssText = 'line-height: 1.6; font-size: 14px; white-space: pre-wrap;';
+        lineDiv.textContent = line;
+        output.appendChild(lineDiv);
+        output.scrollTop = output.scrollHeight;
+
+        const randomDelay = Math.floor(Math.random() * 2000) + 50; // 50–250ms
+        await new Promise(resolve => setTimeout(resolve, randomDelay));
+
+    }
+
+    output.appendChild(document.createElement('br'));
+    output.scrollTop = output.scrollHeight;
 }
+
+
 
    
 
