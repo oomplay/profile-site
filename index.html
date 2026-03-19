@@ -1526,27 +1526,64 @@ SWAP [${bar(swap)}] ${swap}%
     },
 
     neofetch: () => ({
-        type: 'html',
-        value: `
-<div class="mono-block">
-<span style="color: #89b4fa;">        .-/+oossssoo+/-.        </span><span style="color: #cdd6f4;">oom@linux</span>
-<span style="color: #89b4fa;">    \`:+ssssssssssssssssss+:\`    </span><span style="color: #cdd6f4;">-----------</span>
-<span style="color: #89b4fa;">  -+ssssssssssssssssssyyssss+-  </span><span style="color: #f9e2af;">OS:</span> Linux Mint 22 Vanessa x86_64
-<span style="color: #89b4fa;">.ossssssssssssssssss</span><span style="color: #f5c2e7;">dMMMNy</span><span style="color: #89b4fa;">sssso+. </span><span style="color: #f9e2af;">Host:</span> KVM
-<span style="color: #89b4fa;">/sssssssssss</span><span style="color: #f5c2e7;">hdmmNNmmyNMMMM</span><span style="color: #89b4fa;">hssss+  </span><span style="color: #f9e2af;">Kernel:</span> 6.8.0-57-generic
-<span style="color: #89b4fa;">+sssssssss</span><span style="color: #f5c2e7;">hm</span><span style="color: #89b4fa;">yd</span><span style="color: #f5c2e7;">NMMMNh</span><span style="color: #89b4fa;">ssssssssss+ </span><span style="color: #f9e2af;">Uptime:</span> 20 days, 14 hrs, 23 mins
-<span style="color: #89b4fa;">/ssssssss</span><span style="color: #f5c2e7;">hNMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMNm</span><span style="color: #89b4fa;">yhssssssssssss/ </span><span style="color: #f9e2af;">Packages:</span> 2898 (dpkg)
-<span style="color: #89b4fa;">.ssssssss</span><span style="color: #f5c2e7;">hNMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMMdm</span><span style="color: #89b4fa;">Nhssssssssssss. </span><span style="color: #f9e2af;">Shell:</span> bash 5.2.21
-<span style="color: #89b4fa;">/ssssss</span><span style="color: #f5c2e7;">hNMMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMMmm</span><span style="color: #89b4fa;">hssssssssssssss/ </span><span style="color: #f9e2af;">Resolution:</span> 1920x1080
-<span style="color: #89b4fa;">ssssss</span><span style="color: #f5c2e7;">hNMMMMMMN</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMMmh</span><span style="color: #89b4fa;">ssssssssssssss. </span><span style="color: #f9e2af;">DE:</span> GNOME 45
-<span style="color: #89b4fa;">.sssss</span><span style="color: #f5c2e7;">hNMMMMMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMMmh</span><span style="color: #89b4fa;">sssssssssssssss. </span><span style="color: #f9e2af;">Theme:</span> Adwaita-dark [GTK3]
-<span style="color: #89b4fa;">/sssss</span><span style="color: #f5c2e7;">hNMMMMMMMMMd</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMmh</span><span style="color: #89b4fa;">ssssssssssssssss/ </span><span style="color: #f9e2af;">Icons:</span> Adwaita [GTK3]
-<span style="color: #89b4fa;">+ssss</span><span style="color: #f5c2e7;">hNMMMMMMMMMMmy</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">mmNh</span><span style="color: #89b4fa;">ssssssssssssssss+ </span><span style="color: #f9e2af;">Terminal:</span> gnome-terminal
-<span style="color: #89b4fa;">/ssss</span><span style="color: #f5c2e7;">hNMMMMMMMMMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">mmmy</span><span style="color: #89b4fa;">ssssssssssssssssss/ </span><span style="color: #f9e2af;">CPU:</span> AMD EPYC 9334 32-Core @ 3.7 GHz
-<span style="color: #89b4fa;">/sss</span><span style="color: #f5c2e7;">hNMMMMMMMMMMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMh</span><span style="color: #89b4fa;">sssssssssssssssssss+ </span><span style="color: #f9e2af;">GPU:</span> NVIDIA RTX A6000
-<span style="color: #89b4fa;">/s</span><span style="color: #f5c2e7;">hNMMMMMMMMMMMMM</span><span style="color: #89b4fa;">/</span><span style="color: #f5c2e7;">NMMmh</span><span style="color: #89b4fa;">sssssssssssssssssss. </span><span style="color: #f9e2af;">Memory:</span> 4946MiB / 262144MiB
-</div>`
-    }),
+    type: 'html',
+    value: `
+<div style="display: flex; flex-wrap: wrap; gap: 40px; font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace; background: #1e1e2e; padding: 30px 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #cdd6f4; max-width: max-content; margin: 0 auto; align-items: center;">
+    
+    <div style="white-space: pre; font-size: 14px; line-height: 1.2; font-weight: bold;">
+        <span style="color: #89b4fa;">⣿⠛⠛⠛⠛⠻⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</span>
+        <span style="color: #89b4fa;">⠛⢛⣿⠋⢀⡾⠃⠀⠀⠀⠀⢀⣤⣤⠤⠤⣤⣤⣀⣀⣀⣠⠶⡶⣤⣀⣠⠾⡷⣦⣀⣤⣤⡤⠤⠦⢤⣤⣄⡀⠀⢠⡶⢶⡄⠀⠀</span>
+        <span style="color: #89b4fa;">⢠⡟⠁⣴⣿⢤⡄⣴⢶⠶⡆⠈⢷⡀⠀⠀⠀⠀⢀⣭⣫⠵⠥⠽⣄⣝⠵⢍⣘⣄⠳⣤⣀⠀⠀⢀⡤⠊⣽⠁⠀⠸⣇⠀⢿⠀⠀</span>
+        <span style="color: #89b4fa;">⠸⢷⣴⣤⡤⠾⠇⣽⠋⠼⣷⠀⠈⢷⡄⢀⣤⡶⠋⠀⣀⡄⠤⠀⡲⡆⠀⠀⠈⠙⡄⠘⢮⢳⡴⠯⣀⢠⡏⠀⠀⠀⢻⠀⢸⠇⠀</span>
+        <span style="color: #89b4fa;">⠀⠀⠀⠀⠀⠀⠀⠙⠛⠋⠉⢀⣴⠟⠉⢯⡞⡠⢲⠉⣼⠀⠀⡰⠁⡇⢀⢷⠀⣄⢵⠀⠈⡟⢄⠀⠀⠙⢷⣤⣤⣤⡿⢢⡿⠀⠀</span>
+        <span style="color: #89b4fa;">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠟⠑⠊⠁⡼⣌⢠⢿⢸⢸⡀⢰⠁⡸⡇⡸⣸⢰⢈⠘⡄⠀⢸⠀⢣⡀⠀⠈⢮⢢⣏⣤⡾⠃⠀⠀</span>
+        <span style="color: #89b4fa;">⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣯⣴⠞⡠⣼⠁⡘⣾⠏⣿⢇⣳⣸⣞⣀⢱⣧⣋⣞⡜⢳⡇⠀⢸⠀⢆⢧⠀⠰⣄⢏⢧⣾⠁⠀⠀⠀</span>
+        <span style="color: #89b4fa;">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢹⡏⢰⠁⡻⠀⡟⡏⠉⠀⣀⠀⠀⠀⠀⣀⠁⠀⠉⠛⢽⠇⠀⣼⡆⠈⡆⠃⠀⡏⠻⣾⣽⣇⡀⠀⠀</span>
+        <span style="color: #89b4fa;">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠁⡇⠀⡇⡄⣿⠷⠿⠿⠛⠀⠀⠀⠀⠛⠻⠿⠿⠿⡜⢀⡴⡟⢸⣸⡼⠀⠀⡇⠀⡞⡆⢻⠙⢦⠀</span>
+        <span style="color: #89b4fa;">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡶⢀⣼⣿⣬⣽⠧⠬⠇⠀⠀⠀⠀⠀⠀⢞⣯⣭⢺⣔⣪⣾⣤⠺⡇⢳⠀⢠⣧⡾⠛⠛⠻⠶⠞⠁</span>
+        <span style="color: #89b4fa;">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠷⢿⠟⠉⡀⠈⢦⡀⠀⠀⣠⠖⠒⠒⢤⡀⠀⢀⡼⠿⢇⡣⢬⣶⠷⢿⣤⡾⠁⠀⠀⠀⠀⠀⠀⠀</span>
+        <span style="color: #89b4fa;">⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠷⠾⠷⠖⠛⠛⠲⠶⠿⠤⣤⠤⠤⢷⣶⠋⠀⠀⠀⣱⠞⠁⠀⠈⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀</span>
+    </div>
+
+    <div style="flex: 1; min-width: 320px;">
+        <div style="font-weight: bold; font-size: 16px; margin-bottom: 5px;">
+            <span style="color: #89b4fa;">oom</span><span style="color: #cdd6f4;">@</span><span style="color: #89b4fa;">linux</span>
+        </div>
+        <div style="height: 2px; background: linear-gradient(90deg, #89b4fa, #f5c2e7); width: 100%; margin-bottom: 15px; border-radius: 2px;"></div>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.6;">
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">OS:</td><td>Linux Mint 22 Vanessa x86_64</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">Host:</td><td>KVM</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">Kernel:</td><td>6.8.0-57-generic</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">Uptime:</td><td>20 days, 14 hrs, 23 mins</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">Packages:</td><td>2898 (dpkg)</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">Shell:</td><td>bash 5.2.21</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">Resolution:</td><td>1920x1080</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">DE:</td><td>GNOME 45</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">Theme:</td><td>Adwaita-dark [GTK3]</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">Icons:</td><td>Adwaita [GTK3]</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">Terminal:</td><td>gnome-terminal</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">CPU:</td><td>AMD EPYC 9334 32-Core @ 3.7 GHz</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">GPU:</td><td>NVIDIA RTX A6000</td></tr>
+            <tr><td style="color: #f9e2af; font-weight: bold; padding-right: 20px;">Memory:</td><td>4946MiB / 262144MiB</td></tr>
+        </table>
+
+        <div style="display: flex; gap: 8px; margin-top: 20px;">
+            <div style="width: 18px; height: 18px; border-radius: 50%; background: #45475a;"></div>
+            <div style="width: 18px; height: 18px; border-radius: 50%; background: #f38ba8;"></div>
+            <div style="width: 18px; height: 18px; border-radius: 50%; background: #a6e3a1;"></div>
+            <div style="width: 18px; height: 18px; border-radius: 50%; background: #f9e2af;"></div>
+            <div style="width: 18px; height: 18px; border-radius: 50%; background: #89b4fa;"></div>
+            <div style="width: 18px; height: 18px; border-radius: 50%; background: #f5c2e7;"></div>
+            <div style="width: 18px; height: 18px; border-radius: 50%; background: #94e2d5;"></div>
+            <div style="width: 18px; height: 18px; border-radius: 50%; background: #bac2de;"></div>
+        </div>
+    </div>
+
+</div>
+
+`
+}),
 
     uname: () => ({ type: 'text', value: 'Linux linux 6.8.0-57-generic x86_64 GNU/Linux' }),
     uptime: () => ({ type: 'text', value: '20:14:23 up 20 days, 14:23, 1 user, load average: 0.42, 0.35, 0.28' }),
