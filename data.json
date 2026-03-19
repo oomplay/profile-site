@@ -1,15 +1,27 @@
 {
   "name": "OOM or OM",
   "pronouns": "He/Him",
-  "birthday": "Nahh",
-  "likes": ["Reading", "Watching Vtuber", "Sleeping", "Listening to music", "Code!"],
-  "dislike": "Nahh (ask me 😌)",
+  "birthday": "Unknown",
+  "likes": [
+    "Reading",
+    "Watching VTubers",
+    "Sleeping",
+    "Listening to music",
+    "Coding"
+  ],
+  "dislike": "None (ask me 😌)",
   "languages": {
-    "thai": "Native Proficiency (maybe)",
-    "english": "Intermediate Proficiency (B2)",
-    "note": "B2 is in actual use ≠ B2 Examination trust me..."
+    "thai": "Native proficiency",
+    "english": "Intermediate proficiency",
+    "note": "Btw Dont mind this"
   },
-  "games": "Minecraft......",
-  "animals": "Fox and other cute animals!",
-  "greeting": "Nice to meet you"
+  "games": [
+    "Minecraft ",
+    " PUBG"
+  ],
+  "animals": [
+    "Fox ",
+    " Other cute animals"
+  ],
+  "greeting": "Nice to meet you."
 }
